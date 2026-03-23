@@ -6,7 +6,7 @@ _Learn about the person you're helping. Update this as you go._
 - **What to call them:** 希雅
 - **Pronouns:** _(optional)_
 - **Timezone:** UTC
-- **Notes:** 偏好使用中文交流。
+- **Notes:** 偏好使用中文交流；希望助手以“同事/助理”的身份协作。
 
 ## Context
 
