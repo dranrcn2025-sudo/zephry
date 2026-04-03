@@ -1,0 +1,9 @@
+{
+  "name": "post-reviewer",
+  "version": "1.0.0",
+  "type": "commonjs",
+  "private": true,
+  "dependencies": {
+    "dotenv": "^17.3.1"
+  }
+}
