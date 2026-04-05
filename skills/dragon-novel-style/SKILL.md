@@ -13,6 +13,13 @@ Write as if the reader must first believe in the character's miserable, petty, s
 
 ## What to preserve
 
+- Let relationship progression happen through shared tasks, travel, repair, escort, logistics, and post-fight aftermath rather than confession-heavy explanation.
+- Let care appear as action first: handing over clothes, adjusting gear, buying time, paying, carrying, stabilizing, escorting, covering, explaining only when needed.
+- Keep a mild刺感 in dialogue, but let the soft part leak through follow-up action.
+- Prefer emotionally specific companionship over abstract declarations of trust or fate.
+- Use tactical or practical cooperation to reveal closeness: one attacks, one observes; one improvises, one repairs; one speaks, one endures.
+- Allow memory recovery or emotional recognition to arrive obliquely through gestures, repeated habits, small sensory details, and unfinished jokes.
+
 - Keep scenes grounded in very specific, slightly shabby real-life detail.
 - Let the protagonist look a little窝囊, a little funny, a little self-mocking before revealing the wound.
 - Hide pain inside jokes, white烂 observations, side comments, and small objects.
