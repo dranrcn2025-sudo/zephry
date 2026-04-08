@@ -1,0 +1,18 @@
+{
+  "napcat_http_url": "http://localhost:3000",
+  "napcat_ws_url": "ws://localhost:3001",
+  "token": "your_secret_token",
+  "groups": [123456789],
+  "keywords": [
+    {
+      "match": ["下载不了", "下载失败", "无法下载"],
+      "reply": "下载遇到问题？请清除缓存后重试，或更换浏览器。仍有问题请联系客服。"
+    },
+    {
+      "match": ["打不开", "无法访问", "网站挂了"],
+      "reply": "访问异常？请刷新页面或稍后重试。如持续无法访问请联系管理员。"
+    }
+  ],
+  "auto_approve_join": true,
+  "reply_cooldown_seconds": 30
+}
