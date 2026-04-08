@@ -85,10 +85,16 @@ node scripts/index.js --action=delete --id=123
 Batch approve/reject where possible. Delete filler posts one by one if the backend only supports a single id.
 
 ## 4. Report results
-Return a concise summary:
-- approved count
-- rejected count
-- deleted count
-- any failures with reason
+When reporting deletions to the operator, use this compact format by default:
+
+- `杀掉了X条：`
+- Then list the deleted IDs, one line or one clause as appropriate
+- Then summarize grouped by user, for example:
+  - `X条来自用户id123456`
+  - `Y条来自用户id789012`
+
+Prefer this format for comment-cleaning / 巡查 tasks unless the operator asks for a different summary style.
+
+Also report approved/rejected/deleted counts and any failures when that context matters.
 
 Never echo credentials, tokens, session cookies, or TOTP codes back to the user.
