@@ -55,7 +55,9 @@ Use these labels:
 - **Meaningless filler** — emoji-only, single-character noise, “mark”, “沙发”, random gibberish, empty-topic filler, obvious point-farming junk
 - **Normal** — real discussion, bug report, question, feedback, or any post with community value
 
-Hard rule: if a comment contains `cc.com`, treat it as spam / off-platform引流 and delete it immediately without asking for extra confirmation.
+Hard rules:
+- If a comment contains `cc.com`, treat it as spam / off-platform引流 and delete it immediately without asking for extra confirmation.
+- If a comment author's nickname contains `22wu.cc`, treat the comment as spam / 导流刷屏 and delete it immediately without asking for extra confirmation.
 
 When uncertain between spam and filler, prefer **spam**.
 When uncertain between spam and normal, ask for review only if the false positive cost is high; otherwise prefer the safer moderation path defined by the operator.
