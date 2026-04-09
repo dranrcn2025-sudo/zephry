@@ -8,9 +8,37 @@ const CONFIG = {
     loginURL: process.env.ADMIN_URL+'/login/do',
     username: process.env.LOGIN_USER,
     password: process.env.LOGIN_PASS,
+    googleTotpSecret: process.env.GOOGLE_TOTP_SECRET || '',
     tokenTTL: parseInt(process.env.TOKEN_TTL || '3600') * 1000,
     tokenCacheFile: path.join(__dirname, '.token_cache.json'),
 };
+
+function base32Decode(input) {
+    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+    let bits = '';
+    input.replace(/=+$/,'').toUpperCase().split('').forEach(ch => {
+        const idx = alphabet.indexOf(ch);
+        if (idx < 0) throw new Error('invalid base32 secret');
+        bits += idx.toString(2).padStart(5, '0');
+    });
+    const bytes = [];
+    for (let i = 0; i + 8 <= bits.length; i += 8) {
+        bytes.push(parseInt(bits.slice(i, i + 8), 2));
+    }
+    return Buffer.from(bytes);
+}
+
+function generateTotp(secret) {
+    const crypto = require('crypto');
+    const key = base32Decode(secret);
+    const counter = Math.floor(Date.now() / 1000 / 30);
+    const buf = Buffer.alloc(8);
+    buf.writeBigUInt64BE(BigInt(counter));
+    const hmac = crypto.createHmac('sha1', key).update(buf).digest();
+    const offset = hmac[hmac.length - 1] & 0x0f;
+    const code = ((hmac.readUInt32BE(offset) & 0x7fffffff) % 1000000).toString().padStart(6, '0');
+    return code;
+}
 
 function loadTokenCache() {
     try {
@@ -42,6 +70,10 @@ async function login(googleCode = '') {
     if (cached) {
         console.log('Using cached token, uid:', cached.uid);
         return { success: true, ...cached, needFreshCode: false };
+    }
+
+    if (!googleCode && CONFIG.googleTotpSecret) {
+        googleCode = generateTotp(CONFIG.googleTotpSecret);
     }
 
     // 未登录
