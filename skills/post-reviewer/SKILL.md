@@ -59,7 +59,8 @@ Use these labels:
 Hard rules:
 - If a comment contains `cc.com`, treat it as spam / off-platform引流 and delete it immediately without asking for extra confirmation.
 - If a comment author's nickname contains `22wu.cc`, treat the comment as spam / 导流刷屏 and delete it immediately without asking for extra confirmation.
-- If the same user is found mass-posting 10 or more spam comments in one sweep, freeze that user immediately after deleting the comments.
+- If the same user is found mass-posting 5 or more spam comments in one sweep, freeze that user immediately after deleting the comments.
+- After freezing a spam user, run one more comment sweep immediately to catch follow-up spam from newly registered accounts.
 
 When uncertain between spam and filler, prefer **spam**.
 When uncertain between spam and normal, ask for review only if the false positive cost is high; otherwise prefer the safer moderation path defined by the operator.
