@@ -94,10 +94,11 @@ Default reporting rules:
 - Keep `运营整理描述` to one short sentence; prefer short, direct wording.
 - Always set `记录人` to `Dra`.
 - Default output columns: `帖子ID 用户ID 反馈内容 是否有图片 运营整理描述 记录人 反馈时间`.
+- For patrol totals returned in chat, prefer the newer copy-friendly single-line format instead of TSV. Each row should use `、` as the separator, so the operator can copy it into Excel and split columns manually.
 - When the operator asks for a full-day 巡查总表, group output by game first, for example:
   - `性界大战(285)相关：`
   - `青楼大掌柜(147)相关：`
-  Then place table rows for each game under that heading.
+  Then place copy-friendly single-line rows for each game under that heading.
 
 For deletion summaries, use this compact format by default:
 - `杀掉了X条：`
