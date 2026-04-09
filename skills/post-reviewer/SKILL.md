@@ -107,6 +107,11 @@ Default reporting rules:
 - If a post has images, keep `是否有图片` as `是`, and append image links below that row using CloudFront URLs in this style:
   - `图片• https://d391me9s8n5j5s.cloudfront.net/uploads/...jpg`
   - one bullet line per image
+- When the operator asks to整理官方回复, first identify the exact official reply text, then map it back to the original target item it is replying to.
+- The final output format for 官方回复整理 is: `帖子ID 用户ID 反馈内容 是否有图片 运营整理描述 记录人 反馈时间 回复详情`.
+- `回复详情` should contain the matched official-reply text.
+- If the official reply is attached to a user comment, trace it back to that exact comment row.
+- If the official reply is attached to a post main floor instead of a child comment, map it back to that post row.
 
 For deletion summaries, use this compact format by default:
 - `杀掉了X条：`
