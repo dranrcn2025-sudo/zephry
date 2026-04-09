@@ -100,6 +100,11 @@ Default reporting rules:
   - `性界大战(285)相关：`
   - `青楼大掌柜(147)相关：`
   Then place copy-friendly single-line rows for each game under that heading.
+- For post-patrol tasks, keep the same columns: `帖子ID 用户ID 反馈内容 是否有图片 运营整理描述 记录人 反馈时间`.
+- For post `反馈内容`, combine title and body as: `标题 - 正文内容`.
+- If a post has images, keep `是否有图片` as `是`, and append image links below that row using CloudFront URLs in this style:
+  - `图片• https://d391me9s8n5j5s.cloudfront.net/uploads/...jpg`
+  - one bullet line per image
 
 For deletion summaries, use this compact format by default:
 - `杀掉了X条：`
