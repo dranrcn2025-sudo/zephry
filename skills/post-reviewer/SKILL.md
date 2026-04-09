@@ -43,6 +43,7 @@ Expect JSON with `results[].post_data` for posts or comment `items[]` for commen
 If the response is HTML or login fails, clear `.token_cache.json`, refresh login, and retry.
 
 If `images` are present and only contain relative paths, prepend `IMAGE_BASE_URL` before reviewing them.
+For this workflow, when the operator asks to "扒图" or wants image links, default to the CDN-style CloudFront URL rather than the origin/admin host. Convert paths like `/uploads/2026-04-09/example.jpg` to `https://d391me9s8n5j5s.cloudfront.net/uploads/2026-04-09/example.jpg`.
 
 If there are no matching items, report that the queue is empty and stop.
 
