@@ -1,0 +1,19 @@
+{
+  "base_url": "https://weibo.com/",
+  "headless": false,
+  "publish_timeout_seconds": 180,
+  "accounts": {
+    "main": {
+      "label": "主号",
+      "storage_state": "storage-state/main.json"
+    },
+    "alt1": {
+      "label": "副号1",
+      "storage_state": "storage-state/alt1.json"
+    },
+    "alt2": {
+      "label": "副号2",
+      "storage_state": "storage-state/alt2.json"
+    }
+  }
+}
