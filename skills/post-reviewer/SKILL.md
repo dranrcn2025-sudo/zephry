@@ -85,15 +85,26 @@ node scripts/index.js --action=delete --id=123
 Batch approve/reject where possible. Delete filler posts one by one if the backend only supports a single id.
 
 ## 4. Report results
-When reporting deletions to the operator, use this compact format by default:
+For comment 巡查 tasks, default to returning a cleaned table of **effective feedback only**.
 
+Default reporting rules:
+- Exclude official-account replies from the table.
+- Exclude filler / water comments from the table, including items like `1`, `6`, `666`, `顶`, `打卡`, `哦`, emoji-only replies, and similar low-value chatter.
+- Exclude gift-code / exchange-code / 积分任务 style comments from the table unless the operator explicitly asks for them.
+- Keep `运营整理描述` to one short sentence; prefer short, direct wording.
+- Always set `记录人` to `Dra`.
+- Default output columns: `帖子ID 用户ID 反馈内容 是否有图片 运营整理描述 记录人 反馈时间`.
+- When the operator asks for a full-day 巡查总表, group output by game first, for example:
+  - `性界大战(285)相关：`
+  - `青楼大掌柜(147)相关：`
+  Then place table rows for each game under that heading.
+
+For deletion summaries, use this compact format by default:
 - `杀掉了X条：`
-- Then list the deleted IDs, one line or one clause as appropriate
+- Then list the deleted IDs
 - Then summarize grouped by user, for example:
   - `X条来自用户id123456`
   - `Y条来自用户id789012`
-
-Prefer this format for comment-cleaning / 巡查 tasks unless the operator asks for a different summary style.
 
 Also report approved/rejected/deleted counts and any failures when that context matters.
 
