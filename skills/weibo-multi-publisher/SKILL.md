@@ -160,6 +160,9 @@ python3 scripts/post_video_weibo.py --state skills/weibo-multi-publisher/storage
 - `references/selectors-and-status.md`
 - `references/video-publishing.md`
 
+当需要按已确定的人设与分工运营三账号、决定由哪个账号发什么、或回忆日常发文策略时，读取：
+- `references/account-ops-sop.md`
+
 ## 默认交付口径
 
 如果用户说“先搭骨架”，默认交付：
