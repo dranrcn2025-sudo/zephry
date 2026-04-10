@@ -59,6 +59,7 @@ Use these labels:
 Hard rules:
 - If a comment contains `cc.com`, treat it as spam / off-platform引流 and delete it immediately without asking for extra confirmation.
 - If a comment author's nickname contains `22wu.cc`, treat the comment as spam / 导流刷屏 and delete it immediately without asking for extra confirmation.
+- If a comment author's nickname contains obvious 黄赌导流词, treat it as spam / 导流刷屏 and delete it immediately without asking for extra confirmation. High-risk examples include: `操妹`, `粉逼`, `免费`, `不要钱`, `刚成年`, `妹妹`, `约炮`, `成人视频`, `偷拍自拍`, and similar explicit bait combinations.
 - If the same user is found mass-posting 5 or more spam comments in one sweep, freeze that user immediately after deleting the comments.
 - After freezing a spam user, run one more comment sweep immediately to catch follow-up spam from newly registered accounts.
 
