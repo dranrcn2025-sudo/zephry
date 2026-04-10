@@ -61,6 +61,7 @@ Hard rules:
 - If a comment contains explicit porn-bait / 淫秽导流 copy such as long 发骚招嫖文案, `浏览器搜` + 网页/图片站引导, `jvfy`, or similar explicit lure phrases, treat it as spam / 广告号 and delete it immediately without asking for extra confirmation.
 - If a comment author's nickname contains `22wu.cc`, treat the comment as spam / 导流刷屏 and delete it immediately without asking for extra confirmation.
 - If a comment author's nickname contains obvious 黄赌导流词, treat it as spam / 导流刷屏 and delete it immediately without asking for extra confirmation. High-risk examples include: `操妹`, `粉逼`, `免费`, `不要钱`, `刚成年`, `妹妹`, `约炮`, `成人视频`, `偷拍自拍`, and similar explicit bait combinations.
+- If both the comment author's nickname and the comment content independently hit blacklisted / high-risk spam patterns, treat it as direct-kill spam with no extra review. In practice: 昵称命中黑词 + 内容命中黑词/黄赌导流模式 = 直接删除；if the same user shows this pattern at scale in the same sweep, freeze immediately.
 - If the same user is found mass-posting 5 or more spam comments in one sweep, freeze that user immediately after deleting the comments.
 - After freezing a spam user, run one more comment sweep immediately to catch follow-up spam from newly registered accounts.
 
