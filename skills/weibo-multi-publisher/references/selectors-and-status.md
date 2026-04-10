@@ -4,6 +4,7 @@
 - 扫码登录 → 保存 Playwright storage state
 - 使用登录态进入首页
 - 纯文案发微博成功
+- 单视频 + 文案微博成功
 
 ## 当前页面要点
 微博首页发文区当前不是 `contenteditable`，而是：

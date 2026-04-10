@@ -60,7 +60,7 @@ def dry_run(accounts: list[tuple[str, dict[str, Any]]], text: str | None, media_
                 "text_preview": (text[:80] + "...") if text and len(text) > 80 else text,
                 "media_count": len(media_paths),
                 "status": "ready",
-                "detail": "已完成输入校验；当前已实测支持扫码登录与纯文案微博，图文/视频发布仍待接入",
+                "detail": "已完成输入校验；当前已实测支持扫码登录、纯文案微博、单视频+文案微博，多图发布仍待接入",
             }
         )
     return results

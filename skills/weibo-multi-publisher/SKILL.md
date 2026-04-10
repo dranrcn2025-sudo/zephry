@@ -15,8 +15,8 @@ description: >
 已经实测打通：
 - 微博扫码登录并保存 Playwright `storageState`
 - 使用登录态进入微博首页
-- 自动填写纯文案
-- 自动点击“发送”并回读页面确认发布结果
+- 自动填写纯文案并发送
+- 自动上传单个视频并发送视频微博
 
 ## 第一版目标
 
@@ -30,11 +30,11 @@ description: >
 
 当前默认承诺：
 - 纯文案微博：可做
+- 单视频 + 文案微博：可做
 - 扫码登录存状态：可做
 
 仍需后续补齐：
-- 图文发布
-- 视频微博
+- 多图微博
 - 三账号串行/并发策略
 - 风控退避与失败重试
 
@@ -45,11 +45,13 @@ skills/weibo-multi-publisher/
 ├── SKILL.md
 ├── references/
 │   ├── rollout-plan.md
-│   └── selectors-and-status.md
+│   ├── selectors-and-status.md
+│   └── video-publishing.md
 └── scripts/
     ├── publish_weibo.py
     ├── weibo_login.py
     ├── post_text_weibo.py
+    ├── post_video_weibo.py
     ├── config.example.json
     └── prepare_storage_state.md
 ```
@@ -72,7 +74,8 @@ skills/weibo-multi-publisher/
 第一版优先支持：
 - 纯文案
 - 单视频 + 文案
-- 多图 + 文案
+
+多图 + 文案留到后续。
 
 ### 2. 明确账号集合
 
@@ -136,6 +139,7 @@ skills/weibo-multi-publisher/storage-state/<account>.json
 ```bash
 python3 scripts/publish_weibo.py --config .config.json --all-accounts --text-file /path/post.txt --media /path/a.jpg /path/b.jpg --dry-run
 python3 scripts/post_text_weibo.py --state skills/weibo-multi-publisher/storage-state/main.json --text "测试一下自动发微博功能，别理我。"
+python3 scripts/post_video_weibo.py --state skills/weibo-multi-publisher/storage-state/main.json --text "原神也有男通讯录，自带汉化！ #原神 #男通讯录 #汉化 #游戏 #二创" --video /path/demo.mp4
 ```
 
 ## 何时读 references
@@ -143,6 +147,7 @@ python3 scripts/post_text_weibo.py --state skills/weibo-multi-publisher/storage-
 当需要明确交付边界、接登录态方案、给用户解释 rollout 顺序，或页面结构变动时，读取：
 - `references/rollout-plan.md`
 - `references/selectors-and-status.md`
+- `references/video-publishing.md`
 
 ## 默认交付口径
 
