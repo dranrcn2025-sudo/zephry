@@ -10,6 +10,7 @@ Use this skill to clear pending post/comment queues with consistent moderation d
 ## Resources
 - `scripts/index.js` — list, approve, reject, or delete posts via the admin backend
 - `scripts/login.js` — log in and cache an auth token for the admin backend
+- `scripts/patrol-comments.js` — script-first comment patrol: scan, delete spam comments, freeze spam users, then output the exact patrol summary text for chat
 
 ## Required environment
 Create a local `.env` next to the scripts before running anything. Do **not** package credentials in the skill.
@@ -91,6 +92,8 @@ node scripts/index.js --action=delete --id=123
 Batch approve/reject where possible. Delete filler posts one by one if the backend only supports a single id.
 
 ## 4. Report results
+For comment 巡查 tasks, prefer running `node scripts/patrol-comments.js` first. Let the script handle detection, deletion, freezing, and summary generation; only fall back to manual API calls when the script fails or a one-off exception is needed.
+
 For comment 巡查 tasks, default to returning a cleaned table of **effective feedback only**.
 
 Default reporting rules:
