@@ -2,11 +2,13 @@ require('dotenv').config();
 
 const { login } = require('./login');
 
+const BASIC_AUTH_HEADER = process.env.OUTER_BASIC_AUTH || ('Basic ' + Buffer.from(((process.env.OUTER_USER||'') + ':' + (process.env.OUTER_PASS||''))).toString('base64'));
+
 const CONFIG = {
-    PostListApi: process.env.ADMIN_URL + '/post/list',
-    PostUpdateApi: process.env.ADMIN_URL + '/post/updateStatus',
-    PostDelApi: process.env.ADMIN_URL + '/post/do',
-    CommentListApi: process.env.ADMIN_URL + '/comment/list?object_type=post',
+    PostListApi: process.env.ADMIN_URL + '/admin1866/post/list',
+    PostUpdateApi: process.env.ADMIN_URL + '/admin1866/post/updateStatus',
+    PostDelApi: process.env.ADMIN_URL + '/admin1866/post/do',
+    CommentListApi: process.env.ADMIN_URL + '/admin1866/comment/list?object_type=post',
     PostCount: process.env.POSTS_COUNT || 20,
     CommentCount: process.env.COMMENTS_COUNT || process.env.POSTS_COUNT || 20,
 };
@@ -21,6 +23,7 @@ async function getPostList(token, uid, phpsessid) {
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
             'Accept': 'application/json, text/javascript, */*; q=0.01',
             'X-Requested-With': 'XMLHttpRequest',
+            'Authorization': BASIC_AUTH_HEADER,
             'Cookie': cookie,
         },
         body: params.toString(),
@@ -39,6 +42,7 @@ async function updatePost(ids, status, token, uid, phpsessid) {
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
             'Accept': 'application/json, text/javascript, */*; q=0.01',
             'X-Requested-With': 'XMLHttpRequest',
+            'Authorization': BASIC_AUTH_HEADER,
             'Cookie': cookie,
         },
         body: params.toString(),
@@ -57,6 +61,7 @@ async function delPost(id, token, uid, phpsessid) {
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
             'Accept': 'application/json, text/javascript, */*; q=0.01',
             'X-Requested-With': 'XMLHttpRequest',
+            'Authorization': BASIC_AUTH_HEADER,
             'Cookie': cookie,
         },
         body: params.toString(),
@@ -70,12 +75,15 @@ async function getCommentList(token, uid, phpsessid) {
     const cookie = `PHPSESSID=${phpsessid}; _menu=/admin1866/comment/list; uid=${uid}; token=${token}; `;
 
     const res = await fetch(CONFIG.CommentListApi, {
-        method: 'GET',
+        method: 'POST',
         headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
             'Accept': 'application/json, text/javascript, */*; q=0.01',
             'X-Requested-With': 'XMLHttpRequest',
+            'Authorization': BASIC_AUTH_HEADER,
             'Cookie': cookie,
         },
+        body: params.toString(),
     });
 
     const text = await res.text();

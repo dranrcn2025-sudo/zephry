@@ -5,7 +5,7 @@ const path = require('path');
 const BASIC_AUTH_HEADER = process.env.OUTER_BASIC_AUTH || ('Basic ' + Buffer.from(((process.env.OUTER_USER||'') + ':' + (process.env.OUTER_PASS||''))).toString('base64'));
 
 const CONFIG = {
-    loginURL: process.env.ADMIN_URL+'/login/do',
+    loginURL: process.env.ADMIN_URL+'/admin1866/login/do',
     username: process.env.LOGIN_USER,
     password: process.env.LOGIN_PASS,
     googleTotpSecret: process.env.GOOGLE_TOTP_SECRET || '',
