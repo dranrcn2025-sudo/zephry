@@ -14,10 +14,18 @@ skills/weibo-multi-publisher/storage-state/
 - `alt2.json`
 
 ## 获取方式
-1. 用 Playwright/浏览器登录微博账号
-2. 导出 storage state
-3. 放到上述目录
-4. 在 `.config.json` 中映射文件名
+1. 直接运行 `scripts/weibo_login.py`
+2. 输出二维码截图给用户扫码
+3. 检测到微博登录 cookie 后自动保存 storage state
+4. 放到上述目录，并在 `.config.json` 中映射文件名
+
+示例：
+
+```bash
+python3 scripts/weibo_login.py \
+  --state-out skills/weibo-multi-publisher/storage-state/main.json \
+  --screenshot /tmp/weibo-main-qr.png
+```
 
 ## 注意
 - 真实登录态不要提交进 git

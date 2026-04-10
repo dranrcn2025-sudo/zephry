@@ -8,24 +8,35 @@ description: >
 
 # 微博多账号发布
 
-这个技能用于把“给我文案或视频，我一键发到 3 个微博号”落成可维护的 OpenClaw skill 骨架。
+这个技能用于把“给我文案或视频，我一键发到 3 个微博号”落成可维护的 OpenClaw skill。
 
-## 目标
+## 当前已验证能力
 
-第一版目标：
+已经实测打通：
+- 微博扫码登录并保存 Playwright `storageState`
+- 使用登录态进入微博首页
+- 自动填写纯文案
+- 自动点击“发送”并回读页面确认发布结果
+
+## 第一版目标
+
 - 接收文案、图片、视频素材
 - 读取 3 个微博账号登录态
 - 逐号打开微博发布页
-- 自动填写内容并尝试发布
+- 纯文案稳定发布
 - 输出每个账号的成功/失败结果
 
 ## 当前范围
 
-先做骨架，不默认承诺马上可发成功。真正上线前必须补齐：
-- 微博登录态
-- 账号映射
-- Playwright 启动方式
-- 页面选择器与提交流程验证
+当前默认承诺：
+- 纯文案微博：可做
+- 扫码登录存状态：可做
+
+仍需后续补齐：
+- 图文发布
+- 视频微博
+- 三账号串行/并发策略
+- 风控退避与失败重试
 
 ## 目录约定
 
@@ -33,9 +44,12 @@ description: >
 skills/weibo-multi-publisher/
 ├── SKILL.md
 ├── references/
-│   └── rollout-plan.md
+│   ├── rollout-plan.md
+│   └── selectors-and-status.md
 └── scripts/
     ├── publish_weibo.py
+    ├── weibo_login.py
+    ├── post_text_weibo.py
     ├── config.example.json
     └── prepare_storage_state.md
 ```
@@ -72,6 +86,12 @@ skills/weibo-multi-publisher/
 ### 3. 登录态准备
 
 优先使用 Playwright `storageState`。
+
+如果用户要扫码登录，直接运行：
+
+```bash
+python3 scripts/weibo_login.py --state-out skills/weibo-multi-publisher/storage-state/main.json --screenshot /tmp/weibo-qr.png
+```
 
 如果用户给的是已登录浏览器 profile 或 cookie，先转换/整理，再落到：
 
@@ -115,12 +135,14 @@ skills/weibo-multi-publisher/storage-state/<account>.json
 
 ```bash
 python3 scripts/publish_weibo.py --config .config.json --all-accounts --text-file /path/post.txt --media /path/a.jpg /path/b.jpg --dry-run
+python3 scripts/post_text_weibo.py --state skills/weibo-multi-publisher/storage-state/main.json --text "测试一下自动发微博功能，别理我。"
 ```
 
 ## 何时读 references
 
-当需要明确交付边界、接登录态方案、或给用户解释 rollout 顺序时，读取：
+当需要明确交付边界、接登录态方案、给用户解释 rollout 顺序，或页面结构变动时，读取：
 - `references/rollout-plan.md`
+- `references/selectors-and-status.md`
 
 ## 默认交付口径
 
