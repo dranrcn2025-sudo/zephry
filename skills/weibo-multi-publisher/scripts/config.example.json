@@ -3,17 +3,17 @@
   "headless": false,
   "publish_timeout_seconds": 180,
   "accounts": {
-    "main": {
-      "label": "主号",
-      "storage_state": "storage-state/main.json"
+    "gengwanbu": {
+      "label": "AcFan梗玩部",
+      "storage_state": "storage-state/gengwanbu.json"
     },
-    "alt1": {
-      "label": "副号1",
-      "storage_state": "storage-state/alt1.json"
+    "gongluekuangren": {
+      "label": "AcFan攻略狂人",
+      "storage_state": "storage-state/gongluekuangren.json"
     },
-    "alt2": {
-      "label": "副号2",
-      "storage_state": "storage-state/alt2.json"
+    "dongmanniang": {
+      "label": "AcFan动漫娘",
+      "storage_state": "storage-state/dongmanniang.json"
     }
   }
 }
