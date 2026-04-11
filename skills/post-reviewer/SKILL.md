@@ -120,11 +120,18 @@ Default reporting rules:
 - If the official reply is attached to a post main floor instead of a child comment, map it back to that post row.
 
 For deletion summaries, use this compact format by default:
-- `杀掉了X条：`
-- Then list the deleted IDs
-- Then summarize grouped by user, for example:
-  - `X条来自用户id123456`
-  - `Y条来自用户id789012`
+- Do **not** include long raw ID dumps unless the operator explicitly asks for details.
+- First report the total deleted count, for example: `杀掉了104条`
+- Then summarize grouped by user in a colder patrol tone, for example:
+  - `用户id4471620，总计83条，已击毙`
+  - `用户id4483281，总计21条，已击毙`
+- Important wording rule:
+  - `已击毙` means the user was frozen / banned.
+  - If comments were deleted but the user was **not** frozen, do **not** say `已击毙`; just report the count.
+- When the operator asks `今天杀了多少条`, answer with the **natural-day cumulative total** first, not just the latest patrol run.
+- When useful, distinguish clearly between:
+  - `今天累计杀掉了X条`
+  - `这一轮杀掉了Y条`
 
 Also report approved/rejected/deleted counts and any failures when that context matters.
 

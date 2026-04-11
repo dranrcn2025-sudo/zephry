@@ -88,6 +88,7 @@ function formatSummary(primary, frozenUsers, residual) {
   if (!primary.ids.length && !residual.ids.length) {
     return '这轮巡了，暂时没脏东西，评论区干净。';
   }
+  // Chat-facing summary stays compact by default: no long raw ID dumps unless explicitly requested.
   const lines = [];
   if (primary.ids.length) {
     lines.push(`杀掉了${primary.ids.length}条：`);
