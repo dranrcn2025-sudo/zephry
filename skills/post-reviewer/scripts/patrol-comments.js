@@ -81,6 +81,9 @@ function summarizeBatch(items) {
   return { ids, counts };
 }
 
+const fs = require('fs');
+const path = require('path');
+
 function formatSummary(primary, frozenUsers, residual) {
   if (!primary.ids.length && !residual.ids.length) {
     return '这轮巡了，暂时没脏东西，评论区干净。';
@@ -110,6 +113,23 @@ function formatSummary(primary, frozenUsers, residual) {
   return lines.join('\n');
 }
 
+function writeRunLog(primary, frozenUsers, residual, summary) {
+  const now = new Date();
+  const day = now.toISOString().slice(0, 10);
+  const logDir = path.join(__dirname, '..', 'logs');
+  const logPath = path.join(logDir, `patrol-comments-${day}.jsonl`);
+  fs.mkdirSync(logDir, { recursive: true });
+  const record = {
+    ts: now.toISOString(),
+    primary,
+    residual,
+    frozenUsers,
+    totalKilled: primary.ids.length + residual.ids.length,
+    summary,
+  };
+  fs.appendFileSync(logPath, JSON.stringify(record) + '\n', 'utf8');
+}
+
 async function main() {
   const auth = await login();
   if (!auth.success) throw new Error(auth.message || 'login failed');
@@ -135,7 +155,9 @@ async function main() {
     }
   }
 
-  console.log(formatSummary(primary, frozenUsers, residual));
+  const summary = formatSummary(primary, frozenUsers, residual);
+  writeRunLog(primary, frozenUsers, residual, summary);
+  console.log(summary);
 }
 
 main().catch(err => {
