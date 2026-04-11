@@ -102,10 +102,20 @@ nohup python3 scripts/bot.py > /var/log/qq-bot.log 2>&1 &
 echo $! > /tmp/qq-bot.pid
 ```
 
+systemd 自启（推荐生产环境）：
+
+```bash
+cp skills/qq-group-bot/qq-group-bot.service.example ~/.config/systemd/user/qq-group-bot.service
+systemctl --user daemon-reload
+systemctl --user enable --now qq-group-bot.service
+systemctl --user status qq-group-bot.service
+```
+
 停止：
 
 ```bash
 kill $(cat /tmp/qq-bot.pid)
+systemctl --user stop qq-group-bot.service
 ```
 
 ## 处理规则

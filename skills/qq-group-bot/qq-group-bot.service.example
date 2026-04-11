@@ -1,0 +1,15 @@
+[Unit]
+Description=QQ Group Bot (NapCat OneBot11 listener)
+After=default.target
+
+[Service]
+Type=simple
+WorkingDirectory=/root/.openclaw/workspace/skills/qq-group-bot
+ExecStart=/usr/bin/python3 /root/.openclaw/workspace/skills/qq-group-bot/scripts/bot.py
+Restart=always
+RestartSec=5
+StandardOutput=append:/var/log/qq-bot.log
+StandardError=append:/var/log/qq-bot.log
+
+[Install]
+WantedBy=default.target
