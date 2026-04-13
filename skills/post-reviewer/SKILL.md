@@ -67,6 +67,7 @@ Hard rules:
 - After freezing a spam user, run one more comment sweep immediately to catch follow-up spam from newly registered accounts.
 - **New rule (2026-04-13)**: If a comment is longer than 40 characters and contains both flower/emoji decorations (🌺🌹🌸💐) and ambiguous letter strings at the end (e.g., `nvgu`, `jjggk`, `ynbgt`, `unnf`, `jnbfr`, `hncr`, `yyhbg`, `kn vg`, `jjnbbjj`, `lnnv`, `mbvy`, `jnvf`, `ukngy`, `imnh`, `kmnh`, `nbg`, `unbg`, `jnbgt`, `jbgt`, `jbvg`, `kngg`, `knh`, `jmbfu`, `jbbg`, `kmnbh`, `ilmnh`, `iknh`, `hbvf`), treat it as porn‑bait / 黄赌导流 spam. Delete all matching comments from that user and freeze the account immediately.
 - **Extended rule (2026-04-13)**: Also treat as porn‑bait spam if the comment contains explicit sexual solicitation phrases even without flower emojis or ambiguous tails. High‑risk patterns include: `自拍视频`, `无偿给您`, `哥哥要看吗`, `同成闺蜜`, `妹妹本人`, `要的来`, `给您看`, `视频看`, `喷水`, `操妹妹`, `操女儿`, `骚逼`, `自慰`, `学生妹`, `宿舍`, `爸爸来`, `爸爸们`, `搜下面图片`. Delete immediately and freeze the account.
+- **Image‑ad rule (2026-04-13)**: If a comment contains an image and its text is meaningless (e.g., single emoji, random characters, `😎与`, `1`, `。。。`, `沙发`, `mark`) or is shorter than 5 characters, treat it as likely image‑based advertisement / 图片广告 spam. Delete immediately and freeze the account.
 
 When uncertain between spam and filler, prefer **spam**.
 When uncertain between spam and normal, ask for review only if the false positive cost is high; otherwise prefer the safer moderation path defined by the operator.
