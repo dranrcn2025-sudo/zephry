@@ -74,6 +74,7 @@ Hard rules:
   - Multiple unrelated emojis + repeated characters (e.g., `🧠🎸👝与与`, `😎😎与`, `🌺🌹与`)
   - Any text that consists primarily of emojis and has no discernible topic
 Delete immediately and freeze the account.
+- **Patrol scope rule (2026-04-13)**: Default patrol must scan at least **1000 recent comments** per run, not just the latest 120. This ensures newly registered spam accounts that post in bursts are caught even if they are not in the very latest slice. Adjust `pageSize` in patrol scripts accordingly.
 
 When uncertain between spam and filler, prefer **spam**.
 When uncertain between spam and normal, ask for review only if the false positive cost is high; otherwise prefer the safer moderation path defined by the operator.
