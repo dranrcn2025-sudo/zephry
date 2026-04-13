@@ -95,6 +95,11 @@ Delete immediately and freeze the account.
   - 记录人: operator identifier (e.g., 857)
   - 反馈时间: post.created_at
   - 回复详情: any follow‑up response (leave empty if none)
+- **How to fill “回复详情”**:
+  1. If the comment is from the official account (user_id 275), leave this column empty — it is the reply itself.
+  2. If the comment is from a player and there is an official reply within a short time window (e.g., same thread, same day, content‑related), fill this column with the official reply’s content (or a summary).
+  3. If the comment is from a player but no official reply is found, leave it empty.
+  4. To determine the reply relationship, sort comments by time and look for consecutive entries where a player comment is followed by an official reply that addresses the same topic.
 
 When uncertain between spam and filler, prefer **spam**.
 When uncertain between spam and normal, ask for review only if the false positive cost is high; otherwise prefer the safer moderation path defined by the operator.
