@@ -100,6 +100,11 @@ Delete immediately and freeze the account.
   2. If the comment is from a player and there is an official reply within a short time window (e.g., same thread, same day, content‑related), fill this column with the official reply’s content (or a summary).
   3. If the comment is from a player but no official reply is found, leave it empty.
   4. To determine the reply relationship, sort comments by time and look for consecutive entries where a player comment is followed by an official reply that addresses the same topic.
+- **Export by game_id (2026-04-13)**: When exporting feedback, group by `game_id` (e.g., “性界大战-285”, “裏垢女子露西亚酱！-149”). The export format should include a **游戏ID** column:
+  ```
+  游戏ID,帖子ID,用户ID,反馈内容,是否有图片,运营整理描述,记录人,反馈时间,回复详情
+  ```
+  Alternatively, you can export separate CSV files per game_id (e.g., `feedback-性界大战-285-2026-04-13.csv`). Always include the game_id in the output to enable per‑game analysis.
 
 When uncertain between spam and filler, prefer **spam**.
 When uncertain between spam and normal, ask for review only if the false positive cost is high; otherwise prefer the safer moderation path defined by the operator.
