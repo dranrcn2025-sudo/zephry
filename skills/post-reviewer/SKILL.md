@@ -105,6 +105,30 @@ Delete immediately and freeze the account.
   游戏ID,帖子ID,用户ID,反馈内容,是否有图片,运营整理描述,记录人,反馈时间,回复详情
   ```
   Alternatively, you can export separate CSV files per game_id (e.g., `feedback-性界大战-285-2026-04-13.csv`). Always include the game_id in the output to enable per‑game analysis.
+- **Standard comment export format (2026-04-13)**: When exporting comments (not posts), use this format:
+  ```
+  评论ID、用户ID、评论内容、是否有图片、运营整理描述、记录人、评论时间、回复详情
+  ```
+  Example:
+  ```
+  51490、3854823、没错，太垃圾了。走廊也是，tm5星100级的能能把我的9星160级的干掉，这tm合理么？为了赚充值，脸都不要了。反馈，客服还一张没有、否、反馈游戏BUG/平衡性问题、Dra、2026-04-11 15:02、请问您当前账号是否已绑定邮箱呢？您可以提供绑定邮箱信息及历史充值订单记录，并联系平台客服，我们将协助您尽快完成账号找回。
+  ```
+  Fields:
+  - 评论ID: comment._id
+  - 用户ID: comment.user_id
+  - 评论内容: comment.content (raw text, no title prefix)
+  - 是否有图片: "是" if comment.images.length > 0 else "否"
+  - 运营整理描述: a one‑sentence summary based on content (e.g., “反馈登录/进入游戏困难”, “询问/提供兑换码”, “正向反馈/推荐游戏”)
+  - 记录人: “Dra” (fixed operator identifier)
+  - 评论时间: comment.created_at
+  - 回复详情: official reply content (if matched), otherwise empty
+- **Group by game with name (2026-04-13)**: When grouping comments by game, include the game name in the section header:
+  ```
+  青楼大掌柜(147)相关：
+  评论ID、用户ID、评论内容、是否有图片、运营整理描述、记录人、评论时间、回复详情
+  ...
+  ```
+  To obtain game names, query the game list API (`/admin1866/game/list`) and map `game_id` to `title`.
 
 When uncertain between spam and filler, prefer **spam**.
 When uncertain between spam and normal, ask for review only if the false positive cost is high; otherwise prefer the safer moderation path defined by the operator.
