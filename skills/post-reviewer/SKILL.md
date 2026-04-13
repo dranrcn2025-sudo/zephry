@@ -65,6 +65,7 @@ Hard rules:
 - If both the comment author's nickname and the comment content independently hit blacklisted / high-risk spam patterns, treat it as direct-kill spam with no extra review. In practice: 昵称命中黑词 + 内容命中黑词/黄赌导流模式 = 直接删除；if the same user shows this pattern at scale in the same sweep, freeze immediately.
 - If the same user is found mass-posting 5 or more spam comments in one sweep, freeze that user immediately after deleting the comments.
 - After freezing a spam user, run one more comment sweep immediately to catch follow-up spam from newly registered accounts.
+- **New rule (2026-04-13)**: If a comment is longer than 40 characters and contains both flower/emoji decorations (🌺🌹🌸💐) and ambiguous letter strings at the end (e.g., `nvgu`, `jjggk`, `ynbgt`, `unnf`, `jnbfr`, `hncr`, `yyhbg`, `kn vg`, `jjnbbjj`, `lnnv`, `mbvy`, `jnvf`, `ukngy`, `imnh`, `kmnh`, `nbg`, `unbg`, `jnbgt`, `jbgt`, `jbvg`, `kngg`, `knh`, `jmbfu`, `jbbg`, `kmnbh`, `ilmnh`, `iknh`, `hbvf`), treat it as porn‑bait / 黄赌导流 spam. Delete all matching comments from that user and freeze the account immediately.
 
 When uncertain between spam and filler, prefer **spam**.
 When uncertain between spam and normal, ask for review only if the false positive cost is high; otherwise prefer the safer moderation path defined by the operator.
