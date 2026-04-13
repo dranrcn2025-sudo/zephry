@@ -75,6 +75,26 @@ Hard rules:
   - Any text that consists primarily of emojis and has no discernible topic
 Delete immediately and freeze the account.
 - **Patrol scope rule (2026-04-13)**: Default patrol must scan at least **1000 recent comments** per run, not just the latest 120. This ensures newly registered spam accounts that post in bursts are caught even if they are not in the very latest slice. Adjust `pageSize` in patrol scripts accordingly.
+- **XSS attack rule (2026-04-13)**: If a post or comment contains HTML tags (`<script`, `<img`, `<iframe`, etc.) with `src=` or similar attributes pointing to external domains (e.g., `jjgg.xyz`, `jjgg.xyz/j`, `jjgg.xyz/y`), treat it as XSS / malicious script injection. Delete immediately and freeze the account.
+- **Post lookup method (2026-04-13)**: To find a specific post by its ID (e.g., 4804):
+  1. If you know the user ID, filter by `user_id` in the post list API.
+  2. Otherwise, paginate through the post list (pageSize=50–100) until you find the target `_id`. The backend may limit pageSize, so pagination is required.
+  3. If the post is not in recent pages, it may have been deleted or is outside the default sort range.
+- **Export format for feedback records (2026-04-13)**: When exporting post/comment feedback for运营整理, use this CSV‑style format:
+  ```
+  帖子ID,用户ID,反馈内容,是否有图片,运营整理描述,记录人,反馈时间,回复详情
+  4805,4186848,"手上拿着一堆光4星 合成不了, 也是服了",否,"玩家反馈光系合成问题",857,2026-04-11 10:06,
+  4804,4475082,"好色<script>...",否,"XSS攻击已处理",857,2026-04-11 09:02,
+  ```
+  Fields:
+  - 帖子ID: post._id
+  - 用户ID: post.user_id
+  - 反馈内容: post.content (truncate if too long)
+  - 是否有图片: "是" if post.images.length > 0 else "否"
+  - 运营整理描述: short summary of the issue/feedback
+  - 记录人: operator identifier (e.g., 857)
+  - 反馈时间: post.created_at
+  - 回复详情: any follow‑up response (leave empty if none)
 
 When uncertain between spam and filler, prefer **spam**.
 When uncertain between spam and normal, ask for review only if the false positive cost is high; otherwise prefer the safer moderation path defined by the operator.
