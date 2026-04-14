@@ -86,27 +86,21 @@ const path = require('path');
 
 function formatSummary(primary, frozenUsers, residual) {
   if (!primary.ids.length && !residual.ids.length) {
-    return '这轮巡了，暂时没脏东西，评论区干净。';
+    return '杀掉了0条。';
   }
-  // Chat-facing summary stays compact by default: no long raw ID dumps unless explicitly requested.
   const lines = [];
   if (primary.ids.length) {
     lines.push(`杀掉了${primary.ids.length}条：`);
-    lines.push(primary.ids.join('、'));
-    lines.push('');
     for (const [userId, count] of Object.entries(primary.counts)) {
       lines.push(`${count}条来自用户id${userId}`);
     }
     if (frozenUsers.length) {
-      lines.push('');
       for (const userId of frozenUsers) lines.push(`已冻结用户id${userId}`);
     }
   }
   if (residual.ids.length) {
     if (lines.length) lines.push('');
     lines.push(`补巡又杀掉了${residual.ids.length}条：`);
-    lines.push(residual.ids.join('、'));
-    lines.push('');
     for (const [userId, count] of Object.entries(residual.counts)) {
       lines.push(`${count}条来自用户id${userId}`);
     }
@@ -136,7 +130,9 @@ async function main() {
   if (!auth.success) throw new Error(auth.message || 'login failed');
   const { token, uid, phpsessid } = auth;
 
-  const first = await fetchComments(token, uid, phpsessid, 120);
+  // 扫描1000条评论
+  const pageSize = 1000;
+  const first = await fetchComments(token, uid, phpsessid, pageSize);
   const firstItems = (first?.data?.items || []).filter(isFlagged);
   const primary = summarizeBatch(firstItems);
   const frozenUsers = Object.entries(primary.counts).filter(([, c]) => c >= 5).map(([userId]) => Number(userId));
@@ -148,7 +144,8 @@ async function main() {
 
   let residual = { ids: [], counts: {} };
   if (frozenUsers.length) {
-    const second = await fetchComments(token, uid, phpsessid, 120);
+    // 冻结用户后再次扫描1000条评论
+    const second = await fetchComments(token, uid, phpsessid, pageSize);
     const secondItems = (second?.data?.items || []).filter(isFlagged);
     residual = summarizeBatch(secondItems);
     if (residual.ids.length) {
