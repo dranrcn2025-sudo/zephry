@@ -14,15 +14,63 @@ const RISKY_CONTENT = [
   '在线等你玩', '骚逼特别粉', '下面好多水', '萝莉', '女大', '嫩逼', '闺蜜寝室'
 ];
 
+// 计算符号比例（使用全局匹配正确处理emoji）
+function getSymbolRatio(text) {
+  if (!text || text.length === 0) return 0;
+  
+  // 匹配emoji、符号、标点、空白字符
+  const symbolRegex = /[\p{Emoji}\p{Symbol}\p{Punctuation}\s]/gu;
+  const matches = text.match(symbolRegex);
+  const symbolCount = matches ? matches.length : 0;
+  
+  return symbolCount / text.length;
+}
+
 function isFlagged(item) {
   const nick = String(item.user?.nickname || '');
   const content = String(item.content || '');
+  const hasImage = item.images && item.images.length > 0;
+  
+  // 原有规则：高风险昵称或内容
   const hitNick = RISKY_NICK.some(k => nick.includes(k));
   const hitContent = RISKY_CONTENT.some(k => content.includes(k));
-  return hitNick || hitContent;
+  
+  // 规则1：带图片且包含emoji符号的一律按广告处理
+  let isImageAd = false;
+  if (hasImage && content.length > 0) {
+    // 检测是否包含emoji或符号（无论比例多少）
+    const hasEmojiOrSymbol = /[\p{Emoji}\p{Symbol}]/u.test(content);
+    if (hasEmojiOrSymbol) {
+      isImageAd = true;
+    }
+  }
+  
+  // 规则2：短emoji组合（如💗🐯🈶）即使不带图片也是广告
+  let isShortEmojiAd = false;
+  if (content.length > 0 && content.length <= 10) { // 短内容
+    // 检测是否主要为emoji/符号
+    const emojiRegex = /[\p{Emoji}\p{Symbol}]/gu;
+    const matches = content.match(emojiRegex);
+    if (matches && matches.length >= content.length * 0.7) { // 70%以上是符号
+      isShortEmojiAd = true;
+    }
+  }
+  
+  // 规则3：无意义字母组合（如ffdrvfd, bbcf, hgcd等）
+  let isNonsenseAd = false;
+  if (content.length > 0 && content.length <= 15) { // 短内容
+    // 检测是否为无意义字母组合（无空格、无标点、无中文）
+    const isLettersOnly = /^[a-zA-Z]+$/.test(content);
+    const isMeaningless = content.length >= 3 && content.length <= 8; // 3-8个字母的无意义组合
+    if (isLettersOnly && isMeaningless) {
+      isNonsenseAd = true;
+    }
+  }
+  
+  return hitNick || hitContent || isImageAd || isShortEmojiAd || isNonsenseAd;
 }
 
-async function fetchComments(token, uid, phpsessid, pageSize = 120) {
+async function fetchComments(token, uid, phpsessid, pageSize = 2000) {
   const cookie = `PHPSESSID=${phpsessid}; _menu=/admin1866/comment/list; uid=${uid}; token=${token}; `;
   const res = await fetch(`${BASE}/admin1866/comment/list?object_type=post`, {
     method: 'POST',
@@ -84,7 +132,7 @@ function summarizeBatch(items) {
 const fs = require('fs');
 const path = require('path');
 
-function formatSummary(primary, frozenUsers, residual) {
+function formatSummary(primary, adUsers, residual) {
   if (!primary.ids.length && !residual.ids.length) {
     return '杀掉了0条。';
   }
@@ -94,8 +142,8 @@ function formatSummary(primary, frozenUsers, residual) {
     for (const [userId, count] of Object.entries(primary.counts)) {
       lines.push(`${count}条来自用户id${userId}`);
     }
-    if (frozenUsers.length) {
-      for (const userId of frozenUsers) lines.push(`已冻结用户id${userId}`);
+    if (adUsers.length) {
+      for (const userId of adUsers) lines.push(`广告账号id${userId}`);
     }
   }
   if (residual.ids.length) {
@@ -135,27 +183,33 @@ async function main() {
   const first = await fetchComments(token, uid, phpsessid, pageSize);
   const firstItems = (first?.data?.items || []).filter(isFlagged);
   const primary = summarizeBatch(firstItems);
-  const frozenUsers = Object.entries(primary.counts).filter(([, c]) => c >= 5).map(([userId]) => Number(userId));
-
+  
+  // 识别广告账号（发布≥5条广告评论）
+  const adUsers = Object.entries(primary.counts).filter(([, c]) => c >= 5).map(([userId]) => Number(userId));
+  
+  // 只删除评论，不冻结用户
+  let deletedCount = 0;
   if (primary.ids.length) {
-    await deleteComments(primary.ids, token, uid, phpsessid);
-    for (const userId of frozenUsers) await freezeUser(userId, token, uid, phpsessid);
-  }
-
-  let residual = { ids: [], counts: {} };
-  if (frozenUsers.length) {
-    // 冻结用户后再次扫描1000条评论
-    const second = await fetchComments(token, uid, phpsessid, pageSize);
-    const secondItems = (second?.data?.items || []).filter(isFlagged);
-    residual = summarizeBatch(secondItems);
-    if (residual.ids.length) {
-      await deleteComments(residual.ids, token, uid, phpsessid);
+    const deleteResult = await deleteComments(primary.ids, token, uid, phpsessid);
+    if (deleteResult && deleteResult.success) {
+      deletedCount += primary.ids.length;
     }
   }
 
-  const summary = formatSummary(primary, frozenUsers, residual);
-  writeRunLog(primary, frozenUsers, residual, summary);
-  console.log(summary);
+  // 当次巡逻成果汇报
+  if (adUsers.length > 0) {
+    // 有广告账号
+    console.log(`删除${deletedCount}条评论，发现广告账号: ${adUsers.join(', ')}`);
+  } else if (deletedCount > 0) {
+    // 有删除但无广告账号（单用户<5条）
+    console.log(`删除${deletedCount}条评论，无广告账号`);
+  } else {
+    // 无任何发现
+    console.log('巡逻完成，无发现');
+  }
+  
+  // 记录完整日志（用于后续分析）
+  writeRunLog(primary, adUsers, { ids: [], counts: {} }, '');
 }
 
 main().catch(err => {
