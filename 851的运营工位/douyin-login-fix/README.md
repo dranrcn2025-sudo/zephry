@@ -19,3 +19,8 @@
 - 已能稳定抓到 `check_qrconnect` 返回。
 - 轮询状态可见：`status: "new"`（表示码活着但尚未扫码）。
 - 当前仍需用户真实扫码，才能继续观察是否成功落登录态。
+
+## 当前可用二维码
+- 文件：`851的运营工位/douyin-login-fix/account_login_qrcode_20260418_081806.png`
+- 来源：`skills/social-media-publish/engines/social-auto-upload/cookies/douyin_uploader/account_login_qrcode_20260418_081806.png`
+- 说明：这是 2026-04-18 08:18 UTC 这轮生成的二维码快照。
